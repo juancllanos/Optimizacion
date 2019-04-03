@@ -1,3 +1,5 @@
+// METODO DEL GRADIENTE
+
 function fx = f1(x)
     
     fx = 10*(x(1)-1)**2 + (x(2)-2)**2
