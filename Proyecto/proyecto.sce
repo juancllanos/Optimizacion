@@ -21,22 +21,57 @@ Usaremos la funcion karmarkar la cual resuelve problemas de Optimizacion Lineal
 //               EJEMPLOS :
 // 1)
 /*
-A = [2 -2 -1;-1 -4 1]
-b = [-1 ; -1]
-c = [2 ;9 ;3]
-lb = [0 ; 0 ; 0]
-//ub = [%inf; %inf; %inf]
+A = [-2 -3 1 2 0;-1 8 0 -3 2 ;-1 5 0 -2 1]
+b = [8 ; 1 ; -1]
+c = [-1 ; -1 ; -1 ;-1 ; -1]
+lb = [0 ; 0 ; 0 ; 0 ; 0]
 
 [xopt,fopt,exitflag,iter,yopt]=karmarkar([],[],c,[],[],[],[],[],A,b,lb)
-disp(fopt,xopt);
+disp(fopt,'f(xopt)',xopt,'xopt',exitflag,'Tipo');
 */
 
 // 2)
-A1 = [-1 -1 -1;]
-b1 = [-1780]
-c1 = [320 ;415 ;379]
-lb1 = [0.5 ; 0.5 ; 0.5]
-ub1 = [420 ; 780 ; 600]
+/*
+A1 = [2 -2 -1 0 0; -1 -4 1 0 0]
+b1 = [-1 ; -1]
+c1 = [2 ; 9 ; 3 ; 4 ; 5]
+lb1 = [0 ; 0 ; 0 ; 0 ; 0]
+ub1 = [10 ; 8 ; 5 ; 2 ; 4]
 
 [xopt1,fopt1,exitflag1,iter1,yopt]=karmarkar([],[],c1,[],[],[],[],[],A1,b1,lb1,ub1)
-disp(fopt1,xopt1);
+disp(fopt1,'f(xopt)',xopt1,'xopt',exitflag1,'Tipo');
+*/
+
+// 3) 
+// https://www.youtube.com/watch?v=17meLjNKVH0
+
+A2 = [-3 -2 -1 0 0; 0 -1 0 -2 -1; 0 0 -1 0 -1]
+b2 = [-800 ; -500 ; -1000]
+c2 = [18 ; 3 ; 22 ; 18 ; 7]
+lb2 = [0 ;0 ; 0 ; 0 ; 0 ]
+[xopt2,fopt2,exitflag2,iter2,yopt2]=karmarkar([],[],c2,[],[],[],[],[],A2,b2,lb2)
+disp(fopt2,'f(xopt)',xopt2,'xopt',exitflag2,'Tipo');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
