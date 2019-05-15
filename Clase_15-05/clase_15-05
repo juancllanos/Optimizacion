@@ -120,12 +120,11 @@ function tkk = tk(tmax)
     tkk = min(1,tmax)
 endfunction
 
-tm = tmax([x0 ;s0], [ dx; ds])
-disp(tm, 'tm')
+//tm = tmax([x0 ;s0], [dx; ds])
+//disp(tm, 'tm')
 
 tpa = tk(tmax(x0,dxa))
 tda = tk(tmax(s0,dsa))
-
 disp(tda,'tda',tpa,'tpa')
 
 miua = (x0 + tpa*dxa)'*(s0+tda *dsa)/5
@@ -143,9 +142,13 @@ disp(rcc,'rcc')
 new_sol = [m [zeros(5,1) ; zeros(3,1) ; -rcc ]]
 disp(new_sol)
 
-dxc = new_sol(1:5,1) 
-dyc = new_sol(6:8,1)
-dsc = new_sol(9:13,1)
+sol_m = rref(new_sol)
+sol_m = sol_m(:,14)
+disp(sol_m,'sol_m ')
+
+dxc = sol_m(1:5,1) 
+dyc = sol_m(6:8,1)
+dsc = sol_m(9:13,1)
 
 disp(dsc,'dsc',dyc,'dyc',dxc,'dxc')
 
