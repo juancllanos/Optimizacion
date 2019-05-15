@@ -1,3 +1,4 @@
+/* REVISAR ESTOS METODOS
 x0 = [1 ; 1 ; 2 ; 2.8 ; 2]
 y = [-0.3 ; -0.6 ; -0.3]
 s0 = [0.2 ; 0.1 ; 0.3 ; 0.6 ; 0.3]
@@ -8,7 +9,10 @@ c = [-1 ; -1.4 ; 0 ; 0 ; 0]
 
 disp(x0*s0')
 
-r = [A'*y + s0 - c ; A*x0 - b ; x0.*s0]
+rd = A'*y + s0 - c
+rp = A*x0 - b
+rc = x0.*s0
+r = [rd ; rp ; rc]
 disp(r,'r')
 
 //m = [zeros(5,5) A' eye(5,5) ; A zeros(3,3) zeros(3,3) ; diag(s0) zeros(5,5) diag(x0)]
@@ -25,11 +29,12 @@ disp(a3)
 m = [a1 ; a2 ; a3]
 disp(m,'m')
 
-sol_m = rref([m [-zeros(5,1) ; -zeros(3,1) ;- x0.*s0 ]])
+sol_m = rref([m [-rd ; -rp ;- rc ]])
 disp(sol_m,'solucion m')
 
 sol = sol_m(:,14)
 disp(sol,'sol')
+
 dx = sol(1:5,1) 
 dy = sol(6:8,1)
 ds = sol(9:13,1)
@@ -55,6 +60,109 @@ function tm = tmax(x,d)
     
 endfunction
 
-tm = tmax([x0 ;s0 ], [ dx; ds])
+tm = tmax([x0 ;s0], [ dx; ds])
 disp(tm, 'tm')
+*/
+
+x0 = [1 ; 1 ; 1 ; 1 ; 1]
+y = [0 ; 0 ; 0]
+s0 = [1 ; 1 ; 1 ; 1 ; 1]
+
+A = [1 1 1 0 0; 1 2 0 1 0; 1 0 0 0 1]
+b = [4 ; 5.8 ; 3]
+c = [-1 ; -1.4 ; 0 ; 0 ; 0]
+
+disp(x0*s0')
+
+rd = A'*y + s0 - c
+rp = A*x0 - b
+rc = x0.*s0
+r = [rd ; rp ; rc]
+disp(r,'r')
+
+//m = [zeros(5,5) A' eye(5,5) ; A zeros(3,3) zeros(3,3) ; diag(s0) zeros(5,5) diag(x0)]
+
+a1 =[zeros(5,5) A' eye(5,5)]
+disp(a1)
+
+a2 = [A zeros(3,3) zeros(3,5)]
+disp(a2)
+
+a3 = [diag(s0) zeros(5,3) diag(x0)]
+disp(a3)
+
+m = [a1 ; a2 ; a3]
+disp(m,'m')
+
+sol_m = rref([m [-rd ; -rp ;- rc ]])
+disp(sol_m,'solucion m')
+
+sol = sol_m(:,14)
+disp(sol,'sol')
+
+dxa = sol(1:5,1) 
+dya= sol(6:8,1)
+dsa = sol(9:13,1)
+
+disp(dsa,'dsa',dya,'dya',dxa,'dxa')
+
+function tm = tmax(x,d)
+    tm = 10
+    for i = 1:length(x)
+        if d(i)<0 & tm> -x(i)/d(i) then
+        disp(-x(i)/d(i), 'xi/di',d(i),'di',x(i),'xi')
+        tm = -x(i)/d(i) 
+    end
+    end  
+endfunction
+
+function tkk = tk(tmax)
+    tkk = min(1,tmax)
+endfunction
+
+tm = tmax([x0 ;s0], [ dx; ds])
+disp(tm, 'tm')
+
+tpa = tk(tmax(x0,dxa))
+tda = tk(tmax(s0,dsa))
+
+disp(tda,'tda',tpa,'tpa')
+
+miua = (x0 + tpa*dxa)'*(s0+tda *dsa)/5
+disp(miua,'miu afin')
+
+miu = (x0'*s0)/5
+disp(miu,'miu')
+
+sigma = (miua/miu)**3
+disp(sigma,'sigma')
+
+rcc = -sigma * miu * ones(5) + dxa.*dsa
+disp(rcc,'rcc')
+
+new_sol = [m [zeros(5,1) ; zeros(3,1) ; -rcc ]]
+disp(new_sol)
+
+dxc = new_sol(1:5,1) 
+dyc = new_sol(6:8,1)
+dsc = new_sol(9:13,1)
+
+disp(dsc,'dsc',dyc,'dyc',dxc,'dxc')
+
+dx = dxa + dxc
+dy = dya + dyc
+ds = dsa + dsc
+
+disp(ds,'ds',dy,'dy',dx,'dx')
+
+tpc = min(1,0.99*tmax(x0,dx))
+tdc = min(1,0.99*tmax(s0,ds))
+disp(tdc,'tdc',tpc,'tpc')
+
+xk = x0 + tpc *dx
+yk = y + tdc *dy
+sk = s0 + tdc *ds
+
+disp(sk,'s',yk,'yk',xk,'x')
+
 
